@@ -7,6 +7,6 @@ export default function ProductManager () {
         <ProductForm/>
 
         {/* Список продуктов */}
-        
+
     </div>
 }

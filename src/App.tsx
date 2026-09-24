@@ -5,8 +5,9 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 import ProductManager from './pages/ProductManager'
 
+import { withQuery } from './app/providers/with-query';
+
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -15,4 +16,4 @@ function App() {
   )
 }
 
-export default App;
+export default withQuery(App);
