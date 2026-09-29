@@ -1,0 +1,60 @@
+.photo {
+  width: 100%;
+  position: relative;
+
+  &__title {
+    margin-bottom: 8px;
+  }
+
+  &__upload {
+    width: 100%;
+    height: 180px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px dashed #d9dce3;
+    border-radius: 10px;
+
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  &__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    text-align: center;
+    color: #667085;
+
+    svg {
+      font-size: 35px;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__info {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #667085;
+  }
+}
+
+.close__btn {
+  position: absolute;
+  right: 2%;
+  top: 20%;
+  cursor: pointer;
+}

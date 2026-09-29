@@ -1,3 +1,7 @@
+@import './styles/reset.scss';
+@import './styles/variables.scss';
+@import './styles/utilities.scss';
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -108,4 +112,9 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
 }
