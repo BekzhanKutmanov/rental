@@ -1,9 +1,10 @@
 import { TextField } from '@mui/material';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useState } from 'react';
 import { z } from 'zod';
 import ImageUpload from '../../../shared/ui/ImageUpload ';
+import Switch from '@mui/material/Switch';
 import styles from './product.module.scss';
+import KitForm from '../../unit-product/ui/KitForm';
 
 const productSchema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -38,6 +39,8 @@ export function ProductForm() {
     price: '',
   });
   const [touched, setTouched] = useState<TouchedFields>({});
+  const [unitChecked, setUnitChecked] = useState(false);
+
 
   const errors = getValidationErrors(values);
 
@@ -69,18 +72,20 @@ export function ProductForm() {
       return;
     }
 
-    console.log('Product form values:', values);
+    console.log('Product form values:', values); 
   };
 
-  const renderForm = () => {
-    const showTitleError = Boolean(touched.title && errors.title);
-    const showPriceError = Boolean(touched.price && errors.price);
+  const label = { slotProps: { input: { 'aria-label': 'Switch demo' } } }; 
+
+  const renderForm = () => { 
+    const showTitleError = Boolean(touched.title && errors.title); 
+    const showPriceError = Boolean(touched.price && errors.price); 
 
     return (
-      <form className={styles.form__element} noValidate onSubmit={handleSubmit}>
-        <div className={styles.left__wrap}>
-          <div className={styles.left__wrap}>
-            <h4>
+      <form className={styles.form__element} noValidate onSubmit={handleSubmit}> 
+        <div className={styles.left__wrap}> 
+          <div className={styles.left__wrap}> 
+            <h4> 
               Название <span className="red-color">*</span>
             </h4>
             <TextField
@@ -99,13 +104,23 @@ export function ProductForm() {
 
           <div className={styles.left__wrap}>
             <h4>Описание</h4>
-            <TextareaAutosize
-              aria-label="minimum height"
+            <TextField
+              variant="outlined"
               className={styles.form__textarea}
-              minRows={3}
               placeholder="Необязательно"
             />
           </div>
+
+          <div className={styles.left__unit}>
+            <h4>Комплектация <small>(по желанию)</small></h4>
+            <Switch
+              checked={unitChecked}
+              onChange={(e) => setUnitChecked(e.target.checked)}
+              slotProps={{ input: { 'aria-label': 'controlled' } }}
+              defaultChecked />
+          </div>
+
+          {!!unitChecked && <KitForm />}
         </div>
 
         <div className={styles.line}></div>

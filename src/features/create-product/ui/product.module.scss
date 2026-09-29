@@ -35,6 +35,12 @@
     gap: 10px;
     width: 100%;
   }
+
+  &__unit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
 }
 
 .right {
