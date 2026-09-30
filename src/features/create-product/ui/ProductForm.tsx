@@ -1,10 +1,14 @@
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 import { z } from 'zod';
 import ImageUpload from '../../../shared/ui/ImageUpload ';
 import Switch from '@mui/material/Switch';
 import styles from './product.module.scss';
 import KitForm from '../../unit-product/ui/KitForm';
+import type { SetBox } from '../../../types/SetBoxType';
+import { useMutation } from '@tanstack/react-query';
+import productPost from '../../api/productManagerApi';
+import AddIcon from '@mui/icons-material/Add';
 
 const productSchema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -38,11 +42,25 @@ export function ProductForm() {
     title: '',
     price: '',
   });
+  const [image, setImage] = useState<string | null>('');
+  const [description, setDescription] = useState('');
+  const [box, setBox] = useState<SetBox | null>(null);
   const [touched, setTouched] = useState<TouchedFields>({});
   const [unitChecked, setUnitChecked] = useState(false);
 
-
   const errors = getValidationErrors(values);
+
+  const mutation = useMutation({
+    mutationFn: async ()=> {
+      return await productPost({title: values.title, price: values.price, image: image, desc: description, set: box});
+    },
+    onSuccess: (success)=> {
+      console.log(success,' success !!!');
+    },
+    onError: (error)=> {
+      console.log(error, ' error');
+    }
+  });
 
   const handleChange = (field: keyof ProductFormFields, value: string) => {
     setValues((currentValues) => ({
@@ -59,7 +77,7 @@ export function ProductForm() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    console.log(values.title, values.price, description, image, box);
 
     setTouched({
       title: true,
@@ -69,20 +87,24 @@ export function ProductForm() {
     const validationErrors = getValidationErrors(values);
 
     if (Object.keys(validationErrors).length > 0) {
+      alert('Заполните поля!');
       return;
+    } else {
+      mutation.mutate();
     }
 
-    console.log('Product form values:', values); 
+    console.log('Product form values:', values);
   };
-
-  const label = { slotProps: { input: { 'aria-label': 'Switch demo' } } }; 
 
   const renderForm = () => { 
     const showTitleError = Boolean(touched.title && errors.title); 
     const showPriceError = Boolean(touched.price && errors.price); 
 
     return (
-      <form className={styles.form__element} noValidate onSubmit={handleSubmit}> 
+      <form className={styles.form__element} noValidate onSubmit={(e)=> {
+        e.preventDefault();
+        handleSubmit(e);
+      }}> 
         <div className={styles.left__wrap}> 
           <div className={styles.left__wrap}> 
             <h4> 
@@ -105,6 +127,8 @@ export function ProductForm() {
           <div className={styles.left__wrap}>
             <h4>Описание</h4>
             <TextField
+              value={description}
+              onChange={(e)=> setDescription(e.target.value)}
               variant="outlined"
               className={styles.form__textarea}
               placeholder="Необязательно"
@@ -120,13 +144,13 @@ export function ProductForm() {
               defaultChecked />
           </div>
 
-          {!!unitChecked && <KitForm />}
+          {!!unitChecked && <KitForm setBox={(box)=> setBox(box)}/>}
         </div>
 
         <div className={styles.line}></div>
 
         <div className={styles.right__wrap}>
-          <ImageUpload imageSrc={(img: string | null) => console.log(img)} />
+          <ImageUpload imageSrc={(img: string | null) => setImage(img)} />
 
           <div className={styles.default__flex}>
             <div className={styles.left__wrap}>
@@ -146,6 +170,8 @@ export function ProductForm() {
             </div>
             <div className={styles.product__unit}>Ед. (шт)</div>
           </div>
+
+          <div className={styles.wrapBtn}><Button variant='contained' type='submit' size='small' endIcon={<AddIcon />}>Создать</Button></div>
         </div>
       </form>
     );
