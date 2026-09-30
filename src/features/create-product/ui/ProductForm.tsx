@@ -182,8 +182,8 @@ export function ProductForm() {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.productForm}>
+      <div className={styles.productForm__header}>
         <h2>Создать строительный материал</h2>
         <span>
           Заполните информацию о материале. Вы сможете отредактировать её позже.

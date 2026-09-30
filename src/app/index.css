@@ -67,7 +67,11 @@
 }
 
 body {
-  margin: 0;
+  background-color: #ffffff; /* Цвет фона ячеек */
+  background-image: 
+    linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+  background-size: 80px 80px;
 }
 
 h1,
