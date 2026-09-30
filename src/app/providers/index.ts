@@ -1,3 +1,7 @@
-import { withQuery } from './with-query';
+import type { ReactNode } from 'react';
 
-export const withProviders = withQuery;
+import { withQuery } from './with-query';
+import { withToast } from './with-toast';
+
+export const withProviders = (component: () => ReactNode) =>
+  withQuery(withToast(component));
