@@ -1,8 +1,10 @@
+import type { SetBox } from "./SetBoxType"
+
 export interface ProductType {
-    id: number
+    id?: number
     title: string
-    desc: string
-    set: { box: number }
-    image: string
-    price: number
+    desc?: string
+    set: SetBox | null
+    image: string | null
+    price: string
 }

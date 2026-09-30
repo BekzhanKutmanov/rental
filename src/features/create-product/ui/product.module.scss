@@ -72,6 +72,13 @@
   }
 }
 
+.wrapBtn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
 @media screen and (max-width: 440px) {
  .form {
     &__element {

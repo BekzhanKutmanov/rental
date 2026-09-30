@@ -1,10 +1,13 @@
 import { useState } from "react";
 import styles from "./KitForm.module.scss";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-const KitForm = () => {
-  const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState<string>('10');
+const KitForm = ({setBox}: {setBox: (boxValue: {box: string, title: string})=> void}) => {
+  const [name, setName] = useState("Комплект");
+  const [boxValue, setBoxValue] = useState('');
+  const [boxCreateState, setBoxCreateState] = useState(false);
 
   return (
     <div className={styles.kit}>
@@ -28,8 +31,10 @@ const KitForm = () => {
             <TextField
               className={styles.kit__input}
               type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              value={boxValue}
+              onChange={(e) => {
+                setBoxValue(e.target.value);
+              }}
               size="small"
             />
             <span>шт.</span>
@@ -40,18 +45,21 @@ const KitForm = () => {
           Это будет отдельный товар-комплект, состоящий из указанного
           количества единиц материала.
         </p>
-      </div>
+        <div className={styles.kit__wrapBtn}>
 
-      <div className={styles.kit__info}>
-        <span className={styles.kit__icon}>i</span>
+          <Button 
+            variant="contained" 
+            size="small" 
+            endIcon={<>
+              {boxCreateState ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+            </>} 
+            disabled={name && boxValue ? false : true}
+            onClick={()=> {
+              setBox({box: boxValue, title: name});
+              setBoxCreateState(true);
+            }}>Создать комплект</Button>
 
-        <p>
-          Все товары в системе являются штучными.
-          <br />
-          Комплектация позволяет создать дополнительный товар,
-          <br />
-          состоящий из нескольких единиц этого материала.
-        </p>
+        </div>
       </div>
     </div>
   );

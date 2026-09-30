@@ -26,7 +26,6 @@
     outline: none;
   }
 
-
   &__quantity {
     display: flex;
     overflow: hidden;
@@ -40,32 +39,10 @@
     line-height: 1.55;
   }
 
-  &__info {
+  &__wrapBtn {
     display: flex;
-    gap: 18px;
-    margin-top: 18px;
-    padding: 26px 32px;
-    border-radius: 14px;
-    background: #f5f8ff;
-    color: #536684;
-    font-size: 14px;
-    p {
-      margin: 0;
-      line-height: 1.6;
-    }
-  }
-
-  &__icon {
-    width: 19px;
-    height: 19px;
-    border: 3px solid #2676f3;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #2676f3;
-    font-weight: 700;
-    font-family: Arial, sans-serif;
+    justify-content: flex-end;
+    margin-top: 5px;
   }
 }
 
