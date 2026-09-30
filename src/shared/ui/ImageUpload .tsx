@@ -23,7 +23,7 @@ const ImageUpload = ({ imageSrc }: { imageSrc: (img: string | null) => void }) =
 
     return (
         <div className={styles.photo}>
-            <p className={styles.photo__title}>Фото</p>
+            <h4 className={styles.photo__title}>Фото <span className="red-color">*</span></h4>
 
             { preview && <span className={styles.close__btn} onClick={clearFile}>
                 <CloseIcon />

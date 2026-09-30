@@ -9,6 +9,7 @@ import type { SetBox } from '../../../types/SetBoxType';
 import { useMutation } from '@tanstack/react-query';
 import productPost from '../../api/productManagerApi';
 import AddIcon from '@mui/icons-material/Add';
+import { useToast, toastMessages, getToastMessageByStatus } from '../../../shared/lib';
 
 const productSchema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -38,6 +39,8 @@ const getValidationErrors = (values: ProductFormFields) => {
 };
 
 export function ProductForm() {
+  const toast = useToast();
+
   const [values, setValues] = useState<ProductFormFields>({
     title: '',
     price: '',
@@ -55,10 +58,11 @@ export function ProductForm() {
       return await productPost({title: values.title, price: values.price, image: image, desc: description, set: box});
     },
     onSuccess: (success)=> {
+      toast.success(getToastMessageByStatus(500));
       console.log(success,' success !!!');
     },
     onError: (error)=> {
-      console.log(error, ' error');
+      toast.error('baaad');
     }
   });
 
@@ -76,7 +80,7 @@ export function ProductForm() {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     console.log(values.title, values.price, description, image, box);
 
     setTouched({
@@ -87,7 +91,7 @@ export function ProductForm() {
     const validationErrors = getValidationErrors(values);
 
     if (Object.keys(validationErrors).length > 0) {
-      alert('Заполните поля!');
+      toast.warning('Заполните все поля!');
       return;
     } else {
       mutation.mutate();
@@ -103,7 +107,7 @@ export function ProductForm() {
     return (
       <form className={styles.form__element} noValidate onSubmit={(e)=> {
         e.preventDefault();
-        handleSubmit(e);
+        handleSubmit();
       }}> 
         <div className={styles.left__wrap}> 
           <div className={styles.left__wrap}> 
@@ -178,8 +182,8 @@ export function ProductForm() {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.productForm}>
+      <div className={styles.productForm__header}>
         <h2>Создать строительный материал</h2>
         <span>
           Заполните информацию о материале. Вы сможете отредактировать её позже.
