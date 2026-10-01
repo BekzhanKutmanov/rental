@@ -13,7 +13,7 @@ const ImageUpload = ({ imageSrc }: { imageSrc: (img: string | null) => void }) =
 
         const imageUrl = URL.createObjectURL(file);
         setPreview(imageUrl);
-        imageSrc(imageUrl);
+        imageSrc(file);
     };
 
     const clearFile = ()=> {

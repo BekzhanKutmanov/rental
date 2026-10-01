@@ -1,0 +1,85 @@
+ .productForm__header {
+     margin: 20px 40px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+
+     h2 {
+         margin-bottom: 8px;
+         font-size: 28px;
+         font-weight: 700;
+         line-height: 1.2;
+         color: #111827;
+     }
+
+     .switch {
+         display: flex;
+         align-items: center;
+         gap: 10px;
+         padding: 6px 8px 6px 14px;
+         border-radius: 8px;
+         border-color: #d1d5db;
+         color: #ffff;
+         font-weight: bold;
+         letter-spacing: 0;
+         text-transform: none;
+
+         &:hover {
+             border-color: #94a3b8;
+             background: #f8fafc;
+             color: #111827;
+         }
+     }
+
+     .switchControl {
+         pointer-events: none;
+
+         :global(.MuiSwitch-switchBase.Mui-checked) {
+             color: #ffffff;
+         }
+
+         :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+             opacity: 1;
+            //  background-color: #2563eb;
+             background-color: #e3e3e4;
+         }
+     }
+ }
+
+ .formWrapper {
+     display: grid;
+     grid-template-rows: 0fr;
+     opacity: 0;
+     transform: translateY(20px);
+     margin-bottom: 20px;
+
+     transition:
+         grid-template-rows 0.4s ease,
+         opacity 0.3s ease,
+         transform 0.4s ease;
+ }
+
+ .formWrapper.open {
+     grid-template-rows: 1fr;
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .formContent {
+     overflow: hidden;
+ }
+
+ @media screen and (max-width: 640px) {
+    .productForm__header {
+        flex-direction: column;
+        margin: 10px 0px;
+        width: 100%;
+
+        h2 {
+         font-size: 24px;
+        }
+    }
+    .switch {
+        width: 90%;
+    }
+ }

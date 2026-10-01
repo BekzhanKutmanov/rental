@@ -1,0 +1,48 @@
+.action_button {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  background: transparent;
+  cursor: pointer;
+
+  font-size: 19px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &__edit {
+    color: #536176;
+    background: #f7f9fc;
+    border-color: #e8edf4;
+
+    &:hover {
+      background: #eef2f7;
+      border-color: #dce3ec;
+    }
+  }
+
+  &__delete {
+    color: #ef4444;
+    background: #fff1f1;
+    border-color: #ffe4e4;
+
+    &:hover {
+      background: #ffe5e5;
+      border-color: #ffcaca;
+    }
+  }
+}
