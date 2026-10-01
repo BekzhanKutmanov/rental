@@ -3,6 +3,7 @@ import DeleteButton from "./DeleteButton";
 import styles from "./ProductTable.module.scss";
 import type { ProductType } from "../../../types/types";
 import { EditProductModal } from "../../../features/edit-product";
+import { DeleteProductModal } from "../../../features/delete-product";
 import { useState } from "react";
 
 type ProductTableProps = {
@@ -13,6 +14,7 @@ type ProductTableProps = {
 
 const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) => {
   const [editableProductId, setEditableProductId] = useState<number | null>(null);
+  const [deletableProduct, setDeletableProduct] = useState<ProductType | null>(null);
 
   const handleEdit = (product: ProductType) => {
     if (!product.id) {
@@ -21,6 +23,11 @@ const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) =>
 
     setEditableProductId(product.id);
     onEdit?.(product);
+  };
+
+  const handleDelete = (product: ProductType) => {
+    setDeletableProduct(product);
+    onDelete?.(product.id);
   };
     
   return (
@@ -77,7 +84,7 @@ const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) =>
                     <EditButton onClick={() => handleEdit(product)} />
 
                     <DeleteButton
-                      onClick={() => onDelete?.(product.id)}
+                      onClick={() => handleDelete(product)}
                     />
                   </div>
                 </td>
@@ -131,7 +138,7 @@ const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) =>
               <EditButton onClick={() => handleEdit(product)} />
 
               <DeleteButton
-                onClick={() => onDelete?.(product.id)}
+                onClick={() => handleDelete(product)}
               />
             </div>
           </article>
@@ -142,6 +149,12 @@ const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) =>
         open={editableProductId !== null}
         productId={editableProductId}
         onClose={() => setEditableProductId(null)}
+      />
+
+      <DeleteProductModal
+        open={deletableProduct !== null}
+        product={deletableProduct}
+        onClose={() => setDeletableProduct(null)}
       />
     </div>
   );

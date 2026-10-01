@@ -1,0 +1,28 @@
+.modal {
+  color: #172033;
+
+  &__title {
+    padding-bottom: 8px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__content {
+    color: #536176;
+    font-size: 15px;
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+
+    strong {
+      color: #172033;
+      font-weight: 700;
+    }
+  }
+
+  &__actions {
+    padding: 16px 24px 22px;
+  }
+}

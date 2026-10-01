@@ -32,3 +32,10 @@ export async function productPut(id: number, product: ProductType) {
     console.log(data);
     return data;
 }
+
+export async function productDelete(id: number) {
+    const data = await httpClient.delete<ProductType>(`${PRODUCTS_URL}/${id}`);
+
+    console.log(data);
+    return data;
+}
