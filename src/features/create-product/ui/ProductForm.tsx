@@ -6,10 +6,10 @@ import Switch from '@mui/material/Switch';
 import styles from './product.module.scss';
 import KitForm from '../../unit-product/ui/KitForm';
 import type { SetBox } from '../../../types/SetBoxType';
-import { useMutation } from '@tanstack/react-query';
-import productPost from '../../api/productManagerApi';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { productPost } from '../../api/productManagerApi';
 import AddIcon from '@mui/icons-material/Add';
-import { useToast, toastMessages, getToastMessageByStatus } from '../../../shared/lib';
+import { useToast, toastMessages, useToastMessageByStatus } from '../../../shared/lib';
 
 const productSchema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -40,7 +40,7 @@ const getValidationErrors = (values: ProductFormFields) => {
 
 export function ProductForm() {
   const toast = useToast();
-
+  const x = useToastMessageByStatus();
   const [values, setValues] = useState<ProductFormFields>({
     title: '',
     price: '',
@@ -53,16 +53,24 @@ export function ProductForm() {
 
   const errors = getValidationErrors(values);
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
-    mutationFn: async ()=> {
-      return await productPost({title: values.title, price: values.price, image: image, desc: description, set: box});
+    mutationFn: async () => {
+      return await productPost({ title: values.title, price: values.price, image: image, desc: description, set: box });
     },
-    onSuccess: (success)=> {
-      toast.success(getToastMessageByStatus(500));
-      console.log(success,' success !!!');
+    onSuccess: (success) => {
+      toast.success(toastMessages.created);
+      console.log(success, ' success !!!');
+      queryClient.invalidateQueries({
+        queryKey: ['productList']
+      })
     },
-    onError: (error)=> {
-      toast.error('baaad');
+    onError: (error) => {
+      if(error?.date?.message) {
+        toast.error(x(error?.date?.message));
+      }
+      toast.error(toastMessages.error);
     }
   });
 
@@ -100,18 +108,18 @@ export function ProductForm() {
     console.log('Product form values:', values);
   };
 
-  const renderForm = () => { 
-    const showTitleError = Boolean(touched.title && errors.title); 
-    const showPriceError = Boolean(touched.price && errors.price); 
+  const renderForm = () => {
+    const showTitleError = Boolean(touched.title && errors.title);
+    const showPriceError = Boolean(touched.price && errors.price);
 
     return (
-      <form className={styles.form__element} noValidate onSubmit={(e)=> {
+      <form className={styles.form__element} noValidate onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
-      }}> 
-        <div className={styles.left__wrap}> 
-          <div className={styles.left__wrap}> 
-            <h4> 
+      }}>
+        <div className={styles.left__wrap}>
+          <div className={styles.left__wrap}>
+            <h4>
               Название <span className="red-color">*</span>
             </h4>
             <TextField
@@ -132,7 +140,7 @@ export function ProductForm() {
             <h4>Описание</h4>
             <TextField
               value={description}
-              onChange={(e)=> setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               variant="outlined"
               className={styles.form__textarea}
               placeholder="Необязательно"
@@ -145,10 +153,12 @@ export function ProductForm() {
               checked={unitChecked}
               onChange={(e) => setUnitChecked(e.target.checked)}
               slotProps={{ input: { 'aria-label': 'controlled' } }}
-              defaultChecked />
+            />
           </div>
 
-          {!!unitChecked && <KitForm setBox={(box)=> setBox(box)}/>}
+          {unitChecked && (<div className={styles.kitFormAnimation}>
+            <KitForm setBox={(box) => setBox(box)} />
+          </div>)}
         </div>
 
         <div className={styles.line}></div>
@@ -183,13 +193,6 @@ export function ProductForm() {
 
   return (
     <div className={styles.productForm}>
-      <div className={styles.productForm__header}>
-        <h2>Создать строительный материал</h2>
-        <span>
-          Заполните информацию о материале. Вы сможете отредактировать её позже.
-        </span>
-      </div>
-
       {renderForm()}
     </div>
   );

@@ -1,6 +1,7 @@
 import { toastMessages } from './toastMessages';
 
 const statusMessages: Record<number, string> = {
+  200: '',
   400: toastMessages.badRequest,
   401: toastMessages.unauthorized,
   403: toastMessages.forbidden,
