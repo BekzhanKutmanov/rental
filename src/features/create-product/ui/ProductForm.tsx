@@ -66,19 +66,10 @@ export function ProductForm() {
         queryKey: ['productList']
       })
     },
-    onError: (error: unknown) => {
-      const apiError = error as { response?: { status?: number }, date?: { message?: string } };
-
-      if(apiError?.response?.status) {
-        toast.error(x(apiError.response.status));
-        return;
+    onError: (error) => {
+      if(error?.date?.message) {
+        toast.error(x(error?.date?.message));
       }
-
-      if(apiError?.date?.message) {
-        toast.error(apiError.date.message);
-        return;
-      }
-
       toast.error(toastMessages.error);
     }
   });
