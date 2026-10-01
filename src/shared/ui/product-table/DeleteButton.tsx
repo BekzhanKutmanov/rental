@@ -1,7 +1,7 @@
 import styles from "./ActionButton.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const DeleteButton = ({ onClick }) => {
+const DeleteButton = ({ onClick }: { onClick: () => void }) => {
   return (  
     <button
       className={styles.action_button}

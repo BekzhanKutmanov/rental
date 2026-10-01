@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProductForm } from "../../features/create-product";
 import styles from './ProductManager.module.scss';
 import { Button, Switch } from "@mui/material";
@@ -9,7 +9,7 @@ import { productFetch } from "../../features/api/productManagerApi";
 export default function ProductManager() {
     const [formView, setFormView] = useState(false);
 
-    const { data, isError, error, isLoading } = useQuery({
+    const { data } = useQuery({
         queryKey: ['productList'],
         queryFn: productFetch,
     });
