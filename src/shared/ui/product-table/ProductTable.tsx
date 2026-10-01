@@ -2,9 +2,26 @@ import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
 import styles from "./ProductTable.module.scss";
 import type { ProductType } from "../../../types/types";
+import { EditProductModal } from "../../../features/edit-product";
+import { useState } from "react";
 
-const ProductTable = ({ products, onEdit, onDelete }: {products: ProductType[], onEdit: ()=> void, onDelete: ()=> void}) => {
-    console.log(products);
+type ProductTableProps = {
+  products?: ProductType[];
+  onEdit?: (product: ProductType) => void;
+  onDelete?: (productId?: number) => void;
+};
+
+const ProductTable = ({ products = [], onEdit, onDelete }: ProductTableProps) => {
+  const [editableProductId, setEditableProductId] = useState<number | null>(null);
+
+  const handleEdit = (product: ProductType) => {
+    if (!product.id) {
+      return;
+    }
+
+    setEditableProductId(product.id);
+    onEdit?.(product);
+  };
     
   return (
     <div className={styles.product_table}>
@@ -57,7 +74,7 @@ const ProductTable = ({ products, onEdit, onDelete }: {products: ProductType[], 
 
                 <td>
                   <div className={styles.product_table__actions}>
-                    <EditButton onClick={() => onEdit?.(product)} />
+                    <EditButton onClick={() => handleEdit(product)} />
 
                     <DeleteButton
                       onClick={() => onDelete?.(product.id)}
@@ -111,7 +128,7 @@ const ProductTable = ({ products, onEdit, onDelete }: {products: ProductType[], 
             </div>
 
             <div className={styles.product_card__actions}>
-              <EditButton onClick={() => onEdit?.(product)} />
+              <EditButton onClick={() => handleEdit(product)} />
 
               <DeleteButton
                 onClick={() => onDelete?.(product.id)}
@@ -120,6 +137,12 @@ const ProductTable = ({ products, onEdit, onDelete }: {products: ProductType[], 
           </article>
         ))}
       </div>
+
+      <EditProductModal
+        open={editableProductId !== null}
+        productId={editableProductId}
+        onClose={() => setEditableProductId(null)}
+      />
     </div>
   );
 };

@@ -1,8 +1,10 @@
 import httpClient from "../../shared/api/httpClient";
 import type { ProductType } from "../../types/types";
 
+const PRODUCTS_URL = 'https://69ce1d6b33a09f831b7cec43.mockapi.io/products';
+
 export async function productFetch() {
-    const data = await httpClient.get('https://69ce1d6b33a09f831b7cec43.mockapi.io/products');
+    const data = await httpClient.get<ProductType[]>(PRODUCTS_URL);
 
     console.log(data);
     return data;
@@ -11,7 +13,21 @@ export async function productFetch() {
 export async function productPost(product: ProductType) {
     console.log(product);
 
-    const data = await httpClient.post('https://69ce1d6b33a09f831b7cec43.mockapi.io/products', product);
+    const data = await httpClient.post<ProductType>(PRODUCTS_URL, product);
+
+    console.log(data);
+    return data;
+}
+
+export async function productFetchById(id: number) {
+    const data = await httpClient.get<ProductType>(`${PRODUCTS_URL}/${id}`);
+
+    console.log(data);
+    return data;
+}
+
+export async function productPut(id: number, product: ProductType) {
+    const data = await httpClient.put<ProductType>(`${PRODUCTS_URL}/${id}`, product);
 
     console.log(data);
     return data;

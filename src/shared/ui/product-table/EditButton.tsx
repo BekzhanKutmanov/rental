@@ -1,7 +1,7 @@
 import styles from "./ActionButton.module.scss";
 import EditIcon from '@mui/icons-material/Edit';
 
-const EditButton = ({ onClick }) => {
+const EditButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       className={styles.action_button}
