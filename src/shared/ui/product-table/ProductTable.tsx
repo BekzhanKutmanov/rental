@@ -6,6 +6,7 @@ import { EditProductModal } from "../../../features/edit-product";
 import { DeleteProductModal } from "../../../features/delete-product";
 import { useState } from "react";
 import { CircularProgress, Skeleton } from "@mui/material";
+import MySkeleton from "../MySkeleton";
 
 type ProductTableProps = {
   products?: ProductType[];
@@ -31,18 +32,14 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
 
   const desctopSkeleton = () => {
     return <div className={styles.product_table__skeleton_desctop}>
-      <Skeleton variant="rectangular" width={1000} height={70} />
-      {
-        Array.from({ length: 3 }, (_, i) => <Skeleton variant="rectangular" width={1000} height={100} />)
-      }
+      <MySkeleton count={1} length={'1000px'} height={'70px'} />
+      <MySkeleton count={3} length={'1000px'} height={'100px'} />
     </div>
   }
 
   const mobileSkeleton = () => {
     return <div className={styles.product_table__skeleton_mobile}>
-      {
-        Array.from({ length: 3 }, (_, i) => <Skeleton variant="rectangular" width={350} height={200} />)
-      }
+      <MySkeleton count={3} length={'350px'} height={'200px'} />
     </div>
   }
 
@@ -84,7 +81,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
                     </td>
 
                     <td className={styles.product_table__price}>
-                      {product.price} ₽
+                      {product.price} сом
                     </td>
 
                     <td>
@@ -122,14 +119,14 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
 
       {/* Mobile */}
       {
-        mounted ? mobileSkeleton() :
+        !mounted ? mobileSkeleton() :
           <div className={styles.product_table__mobile}>
             {products?.map((product) => (
               <article className={`${styles.product_card} ${loading ? `${styles.table__opacity}` : ''}`} key={product.id}>
                 <div className={styles.product_card__header}>
                   <div className={styles.product_card__image}>
                     {product?.image ? <img src={product.image} alt={product.title} />
-                          : <img src={'/favicon.svg'} alt={product.title} />}
+                      : <img src={'/favicon.svg'} alt={product.title} />}
                   </div>
 
                   <div className={styles.product_card__main}>
