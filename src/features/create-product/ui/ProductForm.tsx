@@ -45,7 +45,7 @@ export function ProductForm() {
     title: '',
     price: '',
   });
-  const [image, setImage] = useState<string | null>('');
+  const [image, setImage] = useState<string | null>(null);
   const [description, setDescription] = useState('');
   const [box, setBox] = useState<SetBox | null>(null);
   const [touched, setTouched] = useState<TouchedFields>({});
