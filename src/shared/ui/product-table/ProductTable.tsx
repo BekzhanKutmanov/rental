@@ -4,7 +4,7 @@ import styles from "./ProductTable.module.scss";
 import type { ProductType } from "../../../types/types";
 import { EditProductModal } from "../../../features/edit-product";
 import { DeleteProductModal } from "../../../features/delete-product";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CircularProgress, Skeleton } from "@mui/material";
 
 type ProductTableProps = {
@@ -70,7 +70,8 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
                   <tr key={product.id}>
                     <td>
                       <div className={styles.product_table__image}>
-                        <img src={product.image || ''} alt={product.title} />
+                        {product?.image ? <img src={product.image} alt={product.title} />
+                          : <img src={'/favicon.svg'} alt={product.title} />}
                       </div>
                     </td>
 
@@ -127,7 +128,8 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
               <article className={`${styles.product_card} ${loading ? `${styles.table__opacity}` : ''}`} key={product.id}>
                 <div className={styles.product_card__header}>
                   <div className={styles.product_card__image}>
-                    <img src={product.image || ''} alt={product.title} />
+                    {product?.image ? <img src={product.image} alt={product.title} />
+                          : <img src={'/favicon.svg'} alt={product.title} />}
                   </div>
 
                   <div className={styles.product_card__main}>
