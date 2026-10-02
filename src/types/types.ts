@@ -7,4 +7,5 @@ export interface ProductType {
     set: SetBox | null
     image: string | null
     price: string
+    quantity?: number
 }
