@@ -3,6 +3,7 @@
   color: #172033;
 
   &__desktop {
+    position: relative;
     overflow: hidden;
     background: #fff;
     border: 1px solid #e8edf4;
@@ -125,13 +126,26 @@
     border-top: 1px solid #edf0f5;
     color: #98a2b3;
     font-size: 13px;
+    text-align: start;
   }
 
   &__mobile {
     display: none;
   }
-}
 
+  &__skeleton_desctop, &__skeleton_mobile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  &__skeleton_mobile {
+    display: none;
+  }
+}
 
 // Mobile card
 
@@ -202,6 +216,18 @@
   }
 }
 
+.table__opacity {
+  opacity: 40%;
+  pointer-events: none;
+}
+
+.table__progress {
+  margin: 10% auto;
+  position: absolute;
+  z-index: 10;
+  top: 30%;
+  right: 50%;
+}
 
 @media (max-width: 768px) {
   .product_table {
@@ -210,10 +236,20 @@
     }
 
     &__mobile {
+      position: relative;
       display: grid;
       gap: 12px;
     }
+    
+    &__skeleton_desctop {
+      display: none;
+    }
+  
+    &__skeleton_mobile {
+      display: flex;
+    }
   }
+
 }
 
 @media (max-width: 420px) {

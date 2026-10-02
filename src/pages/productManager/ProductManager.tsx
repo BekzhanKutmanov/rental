@@ -9,7 +9,7 @@ import { productFetch } from "../../features/api/productManagerApi";
 export default function ProductManager() {
     const [formView, setFormView] = useState(false);
 
-    const { data } = useQuery({
+    const { data, isLoading, isFetching } = useQuery({
         queryKey: ['productList'],
         queryFn: productFetch,
     });
@@ -44,11 +44,11 @@ export default function ProductManager() {
         </div>
 
         {/* Список продуктов */}
-
+            
         <ProductTable
             products={data}
-            onEdit={() => { }}
-            onDelete={() => { }}
+            mounted={isLoading}
+            loading={isFetching}
         />
     </>
 }
