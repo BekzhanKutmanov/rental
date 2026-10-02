@@ -240,10 +240,10 @@ export function EditProductModal({ productId, open, onClose }: EditProductModalP
         </DialogContent>
 
         <DialogActions className={styles.modal__actions}>
-          <Button type="button" onClick={onClose} disabled={mutation.isPending} startIcon={<CloseIcon />}>
+          <Button type="button" size="small" onClick={onClose} disabled={mutation.isPending} startIcon={<CloseIcon />}>
             Отмена
           </Button>
-          <Button type="submit" variant="contained" disabled={isDisabled || productQuery.isError} startIcon={<SaveIcon />}>
+          <Button type="submit" size="small" variant="contained" disabled={isDisabled || productQuery.isError} startIcon={<SaveIcon />}>
             Сохранить
           </Button>
         </DialogActions>

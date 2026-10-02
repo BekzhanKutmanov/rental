@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, CircularProgress, TextField } from '@mui/material';
 import { useState } from 'react';
 import { z } from 'zod';
 import ImageUpload from '../../../shared/ui/ImageUpload ';
@@ -50,6 +50,7 @@ export function ProductForm() {
   const [box, setBox] = useState<SetBox | null>(null);
   const [touched, setTouched] = useState<TouchedFields>({});
   const [unitChecked, setUnitChecked] = useState(false);
+  const [createBtnSpinner, setCreateBtnSpinner] = useState(false);
 
   const errors = getValidationErrors(values);
 
@@ -60,25 +61,18 @@ export function ProductForm() {
       return await productPost({ title: values.title, price: values.price, image: image, desc: description, set: box });
     },
     onSuccess: (success) => {
+      setCreateBtnSpinner(false);
       toast.success(toastMessages.created);
       console.log(success, ' success !!!');
       queryClient.invalidateQueries({
         queryKey: ['productList']
       })
     },
-    onError: (error: unknown) => {
-      const apiError = error as { response?: { status?: number }, date?: { message?: string } };
-
-      if(apiError?.response?.status) {
-        toast.error(x(apiError.response.status));
-        return;
+    onError: (error) => {
+      setCreateBtnSpinner(false);
+      if (error?.date?.message) {
+        toast.error(x(error?.date?.message));
       }
-
-      if(apiError?.date?.message) {
-        toast.error(apiError.date.message);
-        return;
-      }
-
       toast.error(toastMessages.error);
     }
   });
@@ -98,8 +92,6 @@ export function ProductForm() {
   };
 
   const handleSubmit = () => {
-    console.log(values.title, values.price, description, image, box);
-
     setTouched({
       title: true,
       price: true,
@@ -111,6 +103,7 @@ export function ProductForm() {
       toast.warning('Заполните все поля!');
       return;
     } else {
+      setCreateBtnSpinner(true);
       mutation.mutate();
     }
 
@@ -194,7 +187,19 @@ export function ProductForm() {
             <div className={styles.product__unit}>Ед. (шт)</div>
           </div>
 
-          <div className={styles.wrapBtn}><Button variant='contained' type='submit' size='small' endIcon={<AddIcon />}>Создать</Button></div>
+          <div className={styles.wrapBtn}>
+            <Button
+              variant='contained'
+              type='submit'
+              size='small'
+              disabled={createBtnSpinner}
+              endIcon={
+                createBtnSpinner ? <CircularProgress size={'15px'} aria-label="Loading…" />
+                  : <AddIcon />
+              }
+            >Создать
+            </Button>
+          </div>
         </div>
       </form>
     );
