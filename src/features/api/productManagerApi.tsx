@@ -15,7 +15,7 @@ export async function productPost(product: ProductType) {
     return data;
 }
 
-export async function productFetchById(id: number) {
+export async function productFetchById(id: number) {    
     const data = await httpClient.get<ProductType>(`${PRODUCTS_URL}/${id}`);
     return data;
 }

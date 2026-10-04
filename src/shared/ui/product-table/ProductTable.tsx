@@ -118,56 +118,64 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
       }
 
       {/* Mobile */}
+      
       {
-        !mounted ? mobileSkeleton() :
-          <div className={styles.product_table__mobile}>
-            {products?.map((product) => (
-              <article className={`${styles.product_card} ${loading ? `${styles.table__opacity}` : ''}`} key={product.id}>
-                <div className={styles.product_card__header}>
-                  <div className={styles.product_card__image}>
-                    {product?.image ? <img src={product.image} alt={product.title} />
-                      : <img src={'/favicon.svg'} alt={product.title} />}
-                  </div>
-
-                  <div className={styles.product_card__main}>
-                    <h3>{product.title}</h3>
-
-                    <p>{product.desc || "Нет описания"}</p>
-                  </div>
+        mounted ? mobileSkeleton() : <div className={styles.product_table__mobile}>
+          {products?.map((product) => (
+            <article
+              className={`${styles.product_card} ${loading ? styles.table__opacity : ""
+                }`}
+              key={product.id}
+            >
+              <div className={styles.product_card__top}>
+                <div className={styles.product_card__image}>
+                  <img
+                    src={product?.image || "/favicon.svg"}
+                    alt={product.title}
+                  />
                 </div>
 
-                <div className={styles.product_card__info}>
-                  <div className={styles.product_card__field}>
-                    <span>Цена</span>
-                    <strong>{product.price} ₽</strong>
-                  </div>
+                <div className={styles.product_card__main}>
+                  <h3>{product.title}</h3>
 
-                  <div className={styles.product_card__field}>
-                    <span>Комплект</span>
-
-                    {product.set ? (
-                      <div className={styles.product_table__bundle}>
-                        {product.set.title}
-                        {product.set.box}
-                      </div>
-                    ) : (
-                      <strong>—</strong>
-                    )}
-                  </div>
+                  <p>{product.desc || "Нет описания"}</p>
                 </div>
 
                 <div className={styles.product_card__actions}>
                   <EditButton onClick={() => handleEdit(product)} />
 
-                  <DeleteButton
-                    onClick={() => handleDelete(product)}
-                  />
+                  <DeleteButton onClick={() => handleDelete(product)} />
                 </div>
-              </article>
-            ))}
+              </div>
 
-            {loading && <div className={styles.table__progress}><CircularProgress aria-label="Loading…" /></div>}
-          </div>
+              <div className={styles.product_card__bottom}>
+                <div className={styles.product_card__field}>
+                  <span>Цена</span>
+                  <strong>{product.price} ₽</strong>
+                </div>
+
+                <div className={styles.product_card__field}>
+                  <span>Комплект</span>
+
+                  {product.set ? (
+                    <div className={styles.product_table__bundle}>
+                      {product.set.title}
+                      {product.set.box}
+                    </div>
+                  ) : (
+                    <strong className={styles.product_card__empty}>—</strong>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {loading && (
+            <div className={styles.table__progress}>
+              <CircularProgress aria-label="Loading…" />
+            </div>
+          )}
+        </div>
       }
 
       <EditProductModal
