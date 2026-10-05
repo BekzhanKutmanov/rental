@@ -118,7 +118,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
       }
 
       {/* Mobile */}
-      
+
       {
         mounted ? mobileSkeleton() : <div className={styles.product_table__mobile}>
           {products?.map((product) => (
@@ -176,7 +176,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
             </div>
           )}
         </div>
-      }
+      }   
 
       <EditProductModal
         open={editableProductId !== null}
