@@ -1,10 +1,14 @@
 import './styles/App.css';
 import ProductManager from '../pages/productManager/ProductManager';
 import { withProviders } from './providers';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <ProductManager />
+    <Routes>
+      <Route path='/' element={<ProductManager />} />
+      
+    </Routes>
   )
 }
 
