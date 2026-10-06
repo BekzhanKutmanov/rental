@@ -5,7 +5,7 @@ import type { ProductType } from "../../../types/types";
 import { EditProductModal } from "../../../features/edit-product";
 import { DeleteProductModal } from "../../../features/delete-product";
 import { useState } from "react";
-import { CircularProgress, Skeleton } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import MySkeleton from "../MySkeleton";
 
 type ProductTableProps = {

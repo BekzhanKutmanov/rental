@@ -1,11 +1,11 @@
 import type { SetBox } from "./SetBoxType"
 
 export interface ProductType {
-    id?: number
-    title: string
-    desc?: string
-    set: SetBox | null
-    image: string | null
-    price: string
-    quantity?: number
+    id?: number;
+    title: string;
+    desc?: string;
+    set: SetBox | null;
+    image: string | null;
+    price: string;
+    quantity?: {alls: number, rentals: number};
 }
