@@ -9,7 +9,7 @@ import type { SetBox } from '../../../types/SetBoxType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { productPost } from '../../api/productManagerApi';
 import AddIcon from '@mui/icons-material/Add';
-import { useToast, toastMessages, useToastMessageByStatus } from '../../../shared/lib';
+import { useToast, toastMessages } from '../../../shared/lib';
 
 const productSchema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -40,7 +40,6 @@ const getValidationErrors = (values: ProductFormFields) => {
 
 export function ProductForm() {
   const toast = useToast();
-  const x = useToastMessageByStatus();
   const [values, setValues] = useState<ProductFormFields>({
     title: '',
     price: '',
@@ -70,8 +69,9 @@ export function ProductForm() {
     },
     onError: (error) => {
       setCreateBtnSpinner(false);
-      if (error?.date?.message) {
-        toast.error(x(error?.date?.message));
+      const apiError = error as { date?: { message?: string } };
+      if (apiError?.date?.message) {
+        toast.error(apiError.date.message);
       }
       toast.error(toastMessages.error);
     }
