@@ -16,11 +16,15 @@ export async function productPost(product: ProductType) {
 }
 
 export async function productFetchById(id: number) {    
+    console.log(id);
+    
     const data = await httpClient.get<ProductType>(`${PRODUCTS_URL}/${id}`);
     return data;
 }
 
 export async function productPut(id: number, product: ProductType) {
+    console.log(product);
+    
     const data = await httpClient.put<ProductType>(`${PRODUCTS_URL}/${id}`, product);
     return data;
 }

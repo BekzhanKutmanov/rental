@@ -122,3 +122,20 @@ code {
   max-width: 600px;
   margin: 0 auto;
 }
+
+/* Loading */
+.spinner__opacityBg {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.spinner__blurBg {
+  position: absolute;
+  z-index: 10;
+
+  top: 50%;
+  left: 50%;
+
+  margin: 0;
+  transform: translate(-50%, -50%);
+}

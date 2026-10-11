@@ -1,22 +1,12 @@
 import React from 'react';
 import styles from './ProductCard.module.scss';
-
-export interface ProductType {
-  id?: number;
-  title: string;
-  image: string | null;
-  price: string;
-  quantity?: {
-    alls: number;
-    rentals: number;
-  };
-}
+import type { ProductType } from '../product-table';
 
 interface ProductCardProps {
   product: ProductType;
   isSelected?: boolean;
   onSelect?: (id?: number) => void;
-  onOpenDetails?: (id?: number) => void;
+  onOpenDetails: (id: number) => void;
   onAddQuantity?: (id?: number, event?: React.MouseEvent) => void;
 }
 
@@ -30,14 +20,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { id, title, image, price, quantity } = product;
 
   // Расчет количества
-  const total = quantity?.alls ?? 0;
-  const rented = quantity?.rentals ?? 0;
-  const available = Math.max(0, total - rented);
+  // const total = quantity?.alls ?? 0;
+  
+  const total = quantity?.alls?.reduce((acc, item)=> {
+    return acc += item?.quantity;
+  },0);
+
+  const rented = quantity?.rentals ?? 0;  
+  const available = total ? Math.max(0, total - rented) : null
 
   // Расчет процента свободных товаров для progress-bar
-  const availablePercent = total > 0 ? Math.min(100, Math.round((available / total) * 100)) : 0;
+  const availablePercent = available && total ? total > 0 ? Math.min(100, Math.round((available / total) * 100)) : 0: null;
 
-  const handleCardClick = () => {
+  const handleCardClick = () => {    
     if (onOpenDetails) {
       onOpenDetails(id);
     }
@@ -101,7 +96,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className={styles.progressBarBg}>
             <div
               className={styles.progressBarFill}
-              style={{ width: `${availablePercent}%` }}
+              style={{ width: `${availablePercent ? availablePercent : '0'}%` }}
             />
           </div>
 

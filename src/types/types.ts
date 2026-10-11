@@ -1,4 +1,4 @@
-import type { SetBox } from "./SetBoxType"
+import type { SetBox } from "./SetBoxType";
 
 export interface ProductType {
     id?: number;
@@ -7,5 +7,5 @@ export interface ProductType {
     set: SetBox | null;
     image: string | null;
     price: string;
-    quantity?: {alls: number, rentals: number};
+    quantity?: {alls: {id: string | null, quantity: number, dinamycPrice: number}[], rentals: number };
 }
