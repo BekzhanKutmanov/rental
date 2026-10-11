@@ -12,7 +12,7 @@ import styles from "./ProductList.module.scss";
 type ProductCardsListProps = {
   searchQuery: string;
   onAddQuantity: (product: ProductType) => void;
-  onOpenDetails?: (product: ProductType) => void;
+  onOpenDetails: (id: number) => void;
 };
 
 export function ProductCardsList({
@@ -98,14 +98,16 @@ export function ProductCardsList({
       </div>
 
       <div className={styles.cardsGrid}>
-        {filteredProducts.map((product) => (
-          <ProductCard
+        {filteredProducts.map((product) => {
+          console.log(product);
+          
+          return <ProductCard
             key={product.id ?? product.title}
             product={product}
-            onOpenDetails={() => onOpenDetails?.(product)}
+            onOpenDetails={() => onOpenDetails?.(product?.id)}
             onAddQuantity={() => onAddQuantity(product)}
           />
-        ))}
+        })}
       </div>
     </section>
   );

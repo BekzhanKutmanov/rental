@@ -57,7 +57,8 @@ export function ProductForm() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      return await productPost({ title: values.title, price: values.price, image: image, desc: description, set: box });
+
+      return await productPost({ title: values.title, price: values.price, image: image, desc: description, set: box, quantity: {alls: [{ id:Math.random().toString(), quantity: 1, dinamycPrice: Number(values.price)}], rentals: 0} });
     },
     onSuccess: (success) => {
       setCreateBtnSpinner(false);

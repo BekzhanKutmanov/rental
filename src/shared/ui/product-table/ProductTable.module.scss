@@ -295,25 +295,6 @@
   word-break: break-word;
 }
 
-
-// Loading
-.table__opacity {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.table__progress {
-  position: absolute;
-  z-index: 10;
-
-  top: 50%;
-  left: 50%;
-
-  margin: 0;
-  transform: translate(-50%, -50%);
-}
-
-
 @media (max-width: 768px) {
   .product_table {
     &__desktop {

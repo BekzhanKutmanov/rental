@@ -50,7 +50,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
       {
         mounted ? desctopSkeleton() :
           <div className={styles.product_table__desktop}>
-            <table className={loading ? `${styles.table__opacity}` : ''}>
+            <table className={loading ? 'spinner__opacityBg' : ''}>
               <thead>
                 <tr>
                   <th>Фото</th>
@@ -109,7 +109,8 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
               </tbody>
             </table>
 
-            {loading && <div className={styles.table__progress}><CircularProgress aria-label="Loading…" /></div>}
+            {/* {loading && <div className={styles.table__progress}><CircularProgress aria-label="Loading…" /></div>} */}
+            {loading && <div className={'spinner__blurBg'}><CircularProgress aria-label="Loading…" /></div>}
 
             <div className={styles.product_table__footer}>
               Показано {products?.length} материалов
@@ -123,7 +124,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
         mounted ? mobileSkeleton() : <div className={styles.product_table__mobile}>
           {products?.map((product) => (
             <article
-              className={`${styles.product_card} ${loading ? styles.table__opacity : ""
+              className={`${styles.product_card} ${loading ? 'spinner__opacityBg' : ""
                 }`}
               key={product.id}
             >
@@ -171,7 +172,7 @@ const ProductTable = ({ products = [], mounted, loading }: ProductTableProps) =>
           ))}
 
           {loading && (
-            <div className={styles.table__progress}>
+            <div className={'spinner__blurBg'}>
               <CircularProgress aria-label="Loading…" />
             </div>
           )}
